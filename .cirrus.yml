@@ -17,4 +17,6 @@ task:
       - python tools/git-sync-deps
   artifacts: out/Debug/libskia.a
   script: 
-    - echo "cache first"
+    - cd skia
+    - bin/gn gen ../out/Debug --args='is_official_build=false'
+    - ninja -C ../out/Debug
