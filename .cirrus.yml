@@ -15,8 +15,12 @@ task:
       - cd skia
       - git checkout --detach 25e371f7ee5a770ba0d7fe5b8b51887c616cc52b
       - python tools/git-sync-deps
-  artifacts: out/Debug/*
+      - find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
+      - cd ..
   script: 
+    - brew install ninja
     - cd skia
     - bin/gn gen ../out/Debug --args='is_official_build=false'
     - ninja -C ../out/Debug
+  artifacts: 
+    path: out/Debug/*
