@@ -2,13 +2,20 @@ osx_instance:
   image: mojave-xcode-10.2
 
 task:
+  depot_tools_cache:
+    folder: depot_tools
+    populate_script:
+      - git clone 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
+  skia_cache:
+    folder: skia
+    fingerprint_script: echo "25e371f7ee5a770ba0d7fe5b8b51887c616cc52b"
+    populate_script:
+      - export PATH="${PWD}/depot_tools:${PATH}"
+      - git clone https://skia.googlesource.com/skia.git
+      - cd skia
+      - git checkout --detach 25e371f7ee5a770ba0d7fe5b8b51887c616cc52b
+      - python tools/git-sync-deps
   artifacts: out/Debug/libskia.a
   script: 
-    - git clone 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
-    - export PATH="${PWD}/depot_tools:${PATH}"
-    - git clone https://skia.googlesource.com/skia.git
-    - cd skia
-    - python tools/git-sync-deps
-    - bin/gn gen out/Debug --args='is_official_build=false'
-    - tools/install_dependencies.sh
+    - skia/bin/gn gen out/Debug --args='is_official_build=false'
     - ninja -C out/Debug
