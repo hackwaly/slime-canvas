@@ -23,4 +23,4 @@ task:
     - bin/gn gen ../out/Debug --args='is_official_build=false'
     - ninja -C ../out/Debug
   artifacts: 
-    path: out/Debug/*
+    path: out/Debug/lib*.a
