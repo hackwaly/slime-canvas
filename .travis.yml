@@ -1,0 +1,29 @@
+os: osx
+osx_image: xcode10.2
+addons:
+  homebrew:
+    packages:
+    - zstd
+    - ninja
+    - python
+    
+before_script:
+- git clone 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
+- export PATH="${PWD}/depot_tools:${PATH}"
+- git clone https://skia.googlesource.com/skia.git
+- cd skia
+- python tools/git-sync-deps
+- cd ..
+
+script:
+- cd skia
+- bin/gn gen out/Debug --args='is_official_build=false'
+- ninja -C out/Debug
+- cd ..
+
+deploy:
+  provider: script
+  script:
+  - cd skia/out/Debug
+  - zstd libskia.a
+  - curl --upload-file ./libskia.a.zst https://transfer.sh/libskia-$(git rev-parse --short HEAD).a.zst
