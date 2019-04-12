@@ -1,4 +1,4 @@
-brew install ninja python curl
+brew install ninja zstd python curl
 git clone 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
 export PATH="${PWD}/depot_tools:${PATH}"
 git clone https://skia.googlesource.com/skia.git
@@ -7,4 +7,5 @@ python tools/git-sync-deps
 bin/gn gen ../out/Release --args='is_official_build=false is_debug=false'
 ninja -C ../out/Release
 cd ../out/Release
-curl --upload-file ./libskia.a https://transfer.sh/libskia-$(git rev-parse --short HEAD).a
+zstd libskia.a
+curl --upload-file libskia.a.zst https://transfer.sh/libskia-mac-$(git rev-parse --short HEAD).a.zst

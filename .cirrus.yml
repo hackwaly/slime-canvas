@@ -1,6 +1,12 @@
 osx_instance:
   image: mojave-xcode-10.2
 
+build_skia_linux_task:
+  only_if: changesInclude('.cirrus.yml', '.cirrus/build_skia_linux.sh')
+  container: 
+    image: buildpack-deps:scm
+  script: .cirrus/build_skia_mac.sh
+
 build_skia_mac_task:
   only_if: changesInclude('.cirrus.yml', '.cirrus/build_skia_mac.sh')
   script: .cirrus/build_skia_mac.sh
