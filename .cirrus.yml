@@ -1,15 +1,7 @@
-# build_skia_linux_task:
-#   only_if: changesInclude('.cirrus.yml', '.cirrus/build_skia_linux.sh')
-#   container: 
-#     image: buildpack-deps:scm
-#   script: .cirrus/build_skia_linux.sh
-#   artifacts: 
-#     path: out/Release/libskia.so.zst
-
 build_skia_mac_task:
   only_if: changesInclude('.cirrus.yml', '.cirrus/build_skia_mac.sh')
   osx_instance:
     image: mojave-xcode-10.2
   script: .cirrus/build_skia_mac.sh
   artifacts: 
-    path: out/Release/libskia.so.zst
+    path: out/Release/libskia.a.zst.*
