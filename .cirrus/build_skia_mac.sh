@@ -5,7 +5,7 @@ git clone https://skia.googlesource.com/skia.git
 cd skia
 python tools/git-sync-deps
 bin/gn gen ../out/Release --args='is_official_build=false is_debug=false'
-ninja -C ../out/Release
+ninja -C ../out/Release skia
 cd ../out/Release
 zstd libskia.a
 split -b 8m libskia.a.zst libskia.a.zst.
