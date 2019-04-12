@@ -1,20 +1,6 @@
 osx_instance:
   image: mojave-xcode-10.2
 
-task:
-  depot_tools_cache:
-    folder: depot_tools
-    populate_script:
-      - git clone 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
-  script:
-    - brew install ninja zstd
-    - export PATH="${PWD}/depot_tools:${PATH}"
-    - git clone https://skia.googlesource.com/skia.git
-    - cd skia
-    - git checkout --detach 25e371f7ee5a770ba0d7fe5b8b51887c616cc52b
-    - python tools/git-sync-deps
-    - bin/gn gen ../out/Debug --args='is_official_build=false'
-    - ninja -C ../out/Debug
-    - cd ../out/Debug
-    - zstd libskia.a
-    - curl --upload-file ./libskia.a.zst https://transfer.sh/libskia.a.zst
+build_skia_mac:
+  only_if: changesInclude('.cirrus.yml', '.cirrus/build_skia_mac.sh')
+  script: .cirrus/build_skia_mac.sh
